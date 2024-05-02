@@ -6,11 +6,13 @@
     <RootNamespace>ImGuiC_</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ClickableTransparentOverlay" Version="10.0.0" />
     <PackageReference Include="ImGui.NET" Version="1.90.5.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Vortice.Mathematics" Version="1.7.8" />
   </ItemGroup>
 
