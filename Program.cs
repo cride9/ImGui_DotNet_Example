@@ -22,6 +22,9 @@ namespace ImGuiC_ {
         int comboCurrent = 0;
         string[ ] comboItems = [ "item1", "item2", "item3" ];
 
+        byte[ ] buffer = new byte[ 255 ];
+        string multiLine = string.Empty;
+
         protected unsafe override void Render( ) {
 
             // this shows a full detailed and modifyable imgui demo window
@@ -60,7 +63,7 @@ namespace ImGuiC_ {
             }
             ImGui.End( );
 
-            ImGui.Begin( "window##2", ImGuiWindowFlags.NoTitleBar );
+            ImGui.Begin( "window##2" );
             {
                 ImGui.BeginChild( "##child", ImGui.GetContentRegionAvail( ), ImGuiChildFlags.Border | ImGuiChildFlags.AlwaysUseWindowPadding );
                 {
@@ -77,6 +80,17 @@ namespace ImGuiC_ {
                     ImGui.Selectable( "selectable active##1", true, ImGuiSelectableFlags.None, new( ImGui.GetContentRegionAvail( ).X / 2, 20 ) );
                     ImGui.SameLine( );
                     ImGui.Selectable( "selectable normal##2", false, ImGuiSelectableFlags.None, new( ImGui.GetContentRegionAvail( ).X, 20 ) );
+
+                    ImGui.InputText( "inputText", buffer, ( uint )buffer.Length );
+                    ImGui.InputTextMultiline( "inputTextMultiline", ref multiLine, 512, new Vector2( ImGui.GetContentRegionAvail( ).X, 120 ) );
+
+                    float[ ] points = new float[ 100 ];
+                    for ( int i = 0; i < 100; i++ ) 
+                        points[ i ] = ( float )Math.Sin( i * 0.2f + ImGui.GetTime( ) * 15f );
+
+                    // c++ array passing was just a pointer to the array starting point
+                    // so for c# we pass the first index as a reference so the wrapper will know the array's start address
+                    ImGui.PlotLines( "Plotlines", ref points[ 0 ], points.Length );
                 }
                 ImGui.EndChild( );
             }
@@ -147,7 +161,6 @@ namespace ImGuiC_ {
     public class StringVectorPair {
         public string Name { get; set; }
         public Vector4? Vector { get; set; }
-
         public StringVectorPair( string _name, Vector4? _vector ) {
             Name = _name;
             Vector = _vector;
